@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/resources/css/styles.css">
+</head>
+
+<body>
+    <h2>Iniciar Sesión</h2>
+
+    <!-- Mensaje de alerta -->
+    <% if (typeof info !='undefined' ) { %>
+        <% if (!info.loggedIn) {%>
+            <div id="alert" class="alert error show">
+                <% } else{%>
+                    <div id="alert" class="alert success show">
+                        <%}%>
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            <strong>
+                                <%= info.email %>
+                            </strong>
+                            <%= info.msg %>
+                    </div>
+                    <% } %>
+
+
+                        <div class="form-container">
+                            <!-- el formulario se enviará con el metodo POST a la ruta /auth -->
+                            <form action="/auth" , method="post" class="form">
+                                <fieldset>
+                                    <legend>Crendenciales</legend>
+
+                                    <label for="user">Correo</label>
+                                    <input type="email" name="email" id="user" placeholder="ejemplo@ejemplo.com"
+                                        required maxlength="60">
+
+
+                                    <label for="password">Contraseña</label>
+                                    <input type="password" name="password" id="password" placeholder="Tu contraseña"
+                                        required>
+                                </fieldset>
+
+                                <input class="btn btn--submit" type="submit" value="Ingresar">
+
+                                <a href="/register" class="btn btn--register">Crear Cuenta</a>
+                            </form>
+                        </div>
+
+                        <!-- Elementos adicionales para la animación -->
+                        <div class="animation-container">
+                            <div class="circle circle--small"></div>
+                            <div class="circle circle--medium"></div>
+                            <div class="circle circle--large"></div>
+                        </div>
+
+                        <script>
+
+        <% if (typeof info !== 'undefined') { %>
+        const info = {
+                                    email: "<%= info.email %>",
+                                    msg: "<%= info.msg %>",
+                                    loggedIn: Boolean("<%= info.loggedIn %>")
+                                };
+
+                                console.log(info);
+
+                                setTimeout(function () {
+                                    const alertBox = document.getElementById('alert');
+
+
+                                    if (alertBox) {
+                                        alertBox.style.display = 'none';
+
+                                    }
+
+                                    if (info.loggedIn) {
+                                        window.location = "/";
+                                    }
+                                }, 6000);
+
+    <% } else { %>
+                                console.log("No info available.");
+    <% } %>
+
+                        </script>
+
+</body>
+
+</html>
